@@ -28,6 +28,10 @@
                     <i class="bi bi-pencil"></i>
                     <span>Grades</span>
                 </a>
+                <a href="{{ route('attendance.report') }}" class="flex items-center space-x-3 text-gray-600 hover:text-gray-800">
+            <i class="bi bi-flag"></i>
+                <span>Reports</span>
+            </a>
             </nav>
         </div>
 
@@ -37,6 +41,17 @@
             @if (session('success'))
                 <div class="mb-4 p-4 bg-green-100 text-green-800 rounded-lg shadow-md">
                     {{ session('success') }}
+                </div>
+            @endif
+
+            <!-- Display General Errors -->
+            @if ($errors->any())
+                <div class="mb-4 p-4 bg-red-100 text-red-800 rounded-lg shadow-md">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
 
@@ -56,14 +71,24 @@
                     <select name="course_id" class="form-select mt-2 block w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600" required>
                         <option value="">Select a Course</option>
                         @foreach ($courses as $course)
-                            <option value="{{ $course->CourseId }}">{{ $course->CourseName }}</option>
+                            <option value="{{ $course->CourseId }}" {{ old('course_id') == $course->CourseId ? 'selected' : '' }}>
+                                {{ $course->CourseName }}
+                            </option>
                         @endforeach
                     </select>
+                    <!-- Error for course_id -->
+                    @error('course_id')
+                        <span class="text-sm text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
                     <label for="attendance_date" class="block text-sm font-medium text-gray-700">Attendance Date</label>
-                    <input type="date" name="attendance_date" class="form-input mt-2 block w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600" required>
+                    <input type="date" name="attendance_date" value="{{ old('attendance_date') }}" class="form-input mt-2 block w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-600" required>
+                    <!-- Error for attendance_date -->
+                    @error('attendance_date')
+                        <span class="text-sm text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <button type="submit" class="inline-block bg-blue-600 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
