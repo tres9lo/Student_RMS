@@ -8,6 +8,17 @@
                 <h1 class="text-3xl font-bold text-gray-900">Register Student</h1>
             </div>
 
+            @if ($errors->any())
+                <div class="mb-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700">
+                    <strong>Whoops! Something went wrong.</strong>
+                    <ul class="mt-2">
+                        @foreach ($errors->all() as $error)
+                            <li class="text-sm">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form action="{{ route('students.store') }}" method="POST" class="space-y-6">
                 @csrf
 
@@ -15,59 +26,83 @@
                     <label for="FirstName" class="block text-sm font-medium text-gray-700">First Name</label>
                     <input type="text" name="FirstName" id="FirstName" placeholder="Enter first name"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required>
+                        value="{{ old('FirstName') }}" required>
+                    @error('FirstName')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="LastName" class="block text-sm font-medium text-gray-700">Last Name</label>
                     <input type="text" name="LastName" id="LastName" placeholder="Enter last name"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required>
+                        value="{{ old('LastName') }}" required>
+                    @error('LastName')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="Gender" class="block text-sm font-medium text-gray-700">Gender</label>
                     <select name="Gender" id="Gender"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option value="" disabled selected>Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
+                        <option value="" disabled {{ old('Gender') ? '' : 'selected' }}>Select Gender</option>
+                        <option value="Male" {{ old('Gender') == 'Male' ? 'selected' : '' }}>Male</option>
+                        <option value="Female" {{ old('Gender') == 'Female' ? 'selected' : '' }}>Female</option>
                     </select>
+                    @error('Gender')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="DateOfBirth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
                     <input type="date" name="DateOfBirth" id="DateOfBirth"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required>
+                        value="{{ old('DateOfBirth') }}" required>
+                    @error('DateOfBirth')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="ContactNumber" class="block text-sm font-medium text-gray-700">Contact Number</label>
                     <input type="text" name="ContactNumber" id="ContactNumber" placeholder="Enter contact number"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required>
+                        value="{{ old('ContactNumber') }}" required>
+                    @error('ContactNumber')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="Email" class="block text-sm font-medium text-gray-700">Email</label>
                     <input type="email" name="Email" id="Email" placeholder="Enter email"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required>
+                        value="{{ old('Email') }}" required>
+                    @error('Email')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="Address" class="block text-sm font-medium text-gray-700">Address</label>
                     <input type="text" name="Address" id="Address" placeholder="Enter address"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required>
+                        value="{{ old('Address') }}" required>
+                    @error('Address')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="EnrollmentDate" class="block text-sm font-medium text-gray-700">Enrollment Date</label>
                     <input type="date" name="EnrollmentDate" id="EnrollmentDate"
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required>
+                        value="{{ old('EnrollmentDate') }}" required>
+                    @error('EnrollmentDate')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="flex justify-end">

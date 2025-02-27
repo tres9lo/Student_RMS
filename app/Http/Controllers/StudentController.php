@@ -24,16 +24,17 @@ class StudentController extends Controller
             'FirstName' => 'required',
             'LastName' => 'required',
             'Gender' => 'required',
-            'DateOfBirth' => 'required|date',
+            'DateOfBirth' => ['required', 'date', 'before:' . now()->subYears(5)->format('Y-m-d')],
             'ContactNumber' => 'required',
             'Email' => 'required|email|unique:students',
             'Address' => 'required',
             'EnrollmentDate' => 'required|date',
         ]);
-
+    
         Student::create($request->all());
         return redirect()->route('students.index')->with('success', 'Student registered successfully.');
     }
+
 
     public function edit($id)
     {
@@ -42,24 +43,25 @@ class StudentController extends Controller
     }
     
 
-    public function update(Request $request, $id)
-    {
-        $student = Student::findOrFail($id);
 
-        $request->validate([
-            'FirstName' => 'required',
-            'LastName' => 'required',
-            'Gender' => 'required',
-            'DateOfBirth' => 'required|date',
-            'ContactNumber' => 'required',
-            'Email' => 'required|email|unique:students,Email,' . $id . ',StudentId',
-            'Address' => 'required',
-            'EnrollmentDate' => 'required|date',
-        ]);
+public function update(Request $request, $id)
+{
+    $student = Student::findOrFail($id);
 
-        $student->update($request->all());
-        return redirect()->route('students.index')->with('success', 'Student updated successfully.');
-    }
+    $request->validate([
+        'FirstName' => 'required',
+        'LastName' => 'required',
+        'Gender' => 'required',
+        'DateOfBirth' => ['required', 'date', 'before:' . now()->subYears(5)->format('Y-m-d')],
+        'ContactNumber' => 'required',
+        'Email' => 'required|email|unique:students,Email,' . $id . ',StudentId',
+        'Address' => 'required',
+        'EnrollmentDate' => 'required|date',
+    ]);
+
+    $student->update($request->all());
+    return redirect()->route('students.index')->with('success', 'Student updated successfully.');
+}
 
     public function destroy($id)
     {
